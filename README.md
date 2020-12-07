@@ -1,5 +1,7 @@
 # Algolia-Docs-Sync
 
+![Semantic Release](https://github.com/opstrace/algolia-docs-sync/workflows/Semantic%20Release/badge.svg)
+
 ## Inputs
 
 ### `algoliaId`
