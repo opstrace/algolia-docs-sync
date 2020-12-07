@@ -37,7 +37,6 @@ function flattenRoutes(carry, { path, routes }) {
 }
 
 function getText(node) {
-  // Replace non-breaking spaces (char code 160) with normal spaces to avoid style issues
   return toString(node).replace(/\xA0/g, ' ')
 }
 
@@ -71,7 +70,6 @@ async function addRecords(filePath) {
       case 'h4':
       case 'h5':
       case 'h6':
-        // Unhandled headings are added in its own record as the content
         record.anchor = slugger.slug(value)
         addRecord(node)
         break
@@ -109,7 +107,6 @@ async function addRecords(filePath) {
           node.children.forEach((n) => handleNode(n, node))
 
           if (node.tagName === 'details') {
-            // Remove the summary so it doesn't get used in unrelated records
             delete record.summary
           }
         }
