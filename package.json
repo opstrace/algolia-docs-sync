@@ -1,0 +1,80 @@
+{
+  "name": "@opstrace/algolia-docs-sync",
+  "version": "1.0.0",
+  "description": "Fetch docs from repo and upload to Algolia Search",
+  "keywords": [
+    "mdx",
+    "docs",
+    "algolia",
+    "search"
+  ],
+  "homepage": "https://github.com/opstrace/algolia-docs-sync#readme",
+  "bugs": {
+    "url": "https://github.com/opstrace/algolia-docs-sync/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/opstrace/algolia-docs-sync.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Zentered <hi@zentered.co> (https://zentered.co)",
+  "contributors": [
+    "Patrick Heneise (https://github.com/PatrickHeneise)"
+  ],
+  "main": "index.mjs",
+  "scripts": {
+    "all": "npm run lint && npm run build",
+    "build": "ncc build index.mjs --target es2015 -o dist --source-map --license licenses.txt",
+    "lint": "eslint . --ext mjs"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "lint-staged": {
+    "*.{mjs,js,json,md,mdx}": [
+      "prettier --write"
+    ],
+    "*.{mjs,js,jsx,mdx}": [
+      "eslint --cache --fix"
+    ]
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "algoliasearch": "^4.8.2",
+    "github-slugger": "^1.3.0",
+    "md5": "^2.3.0",
+    "mdast-util-to-string": "^2.0.0",
+    "node-fetch": "^2.6.1",
+    "rehype-raw": "^5.0.0",
+    "remark-parse": "^9.0.0",
+    "remark-rehype": "^8.0.0",
+    "unified": "^9.2.0"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^11.0.0",
+    "@commitlint/config-conventional": "^11.0.0",
+    "@vercel/ncc": "^0.25.1",
+    "eslint": "^7.15.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.3",
+    "prettier": "^2.2.1"
+  },
+  "release": {
+    "branches": [
+      "main"
+    ],
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/github"
+    ]
+  }
+}
