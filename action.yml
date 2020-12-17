@@ -1,5 +1,7 @@
 name: 'algolia-docs-sync'
-description: 'Fetch docs from repo and upload to Algolia Search'
+icon: 'search'
+color: 'blue'
+description: 'Render & upload docs to Algolia Search'
 inputs:
   algoliaId:
     description: 'Algolia Application ID'
