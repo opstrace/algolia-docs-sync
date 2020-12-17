@@ -1,6 +1,7 @@
 name: 'algolia-docs-sync'
-icon: 'search'
-color: 'blue'
+branding:
+  icon: 'search'
+  color: 'blue'
 description: 'Render & upload docs to Algolia Search'
 inputs:
   algoliaId:
