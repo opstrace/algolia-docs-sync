@@ -24,7 +24,7 @@
   "main": "index.mjs",
   "scripts": {
     "all": "npm run lint && npm run build",
-    "build": "ncc build index.mjs --target es2015 -o dist --source-map --license licenses.txt",
+    "build": "ncc build index.mjs --target es2020 -o dist --source-map --license licenses.txt",
     "lint": "eslint . --ext mjs"
   },
   "husky": {

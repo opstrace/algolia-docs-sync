@@ -33,7 +33,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: ./ # Uses an action in the root directory
+      - uses: opstrace/algolia-docs-sync@v1.0.2
         with:
           algoliaId: 'QTVPN6XDU8'
           algoliaKey: ${{ secrets.ALGOLIA_KEY }}
