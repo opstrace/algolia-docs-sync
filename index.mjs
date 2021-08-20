@@ -48,42 +48,60 @@ async function addRecords(filePath) {
   const slugger = new GithubSlugger()
   const records = []
 
-  let record = {}
-  let position = 0
+  let record = {
+    content: '',
+    sections: []
+  }
 
+  const addSection = (node) => {
+    const text = getText(node)
+
+    record.sections.push({
+      name: text,
+      anchor: slugger.slug(text),
+      subsections: [],
+      content: ''
+    })
+  }
+  const addSubSection = (name) => {
+    if (record.sections.length !== 0) {
+      record.sections[record.sections.length - 1].subsections.push(name)
+    }
+  }
+  const addContent = (text) => {
+    if (record.sections.length === 0) {
+      record.content += text
+    } else {
+      record.sections[record.sections.length - 1].content += text
+    }
+  }
   const handleHeading = (node) => {
     const value = getText(node)
 
     switch (node.tagName) {
       case 'h1':
-        record = { title: value }
+        record.title = value
+        record.anchor = slugger.slug(value)
         break
       case 'h2':
-        record.section = value
-        record.anchor = slugger.slug(value)
-        delete record.subSection
+        addSection(node)
         break
       case 'h3':
-        record.subSection = value
-        record.anchor = slugger.slug(value)
+        addSubSection(value)
         break
       case 'h4':
       case 'h5':
       case 'h6':
-        record.anchor = slugger.slug(value)
-        addRecord(node)
+        addSubSection(value)
         break
       default:
         throw new Error(`Unhandled node: ${node.tagName}`)
     }
   }
-  const addRecord = (node) => {
-    const content = getText(node)
+  const addRecord = () => {
     const path = removeFromLast(filePath, '.')
-    const objectID = `${path}-${md5(content)}`
-
-    records.push({ ...record, content, path, objectID, position })
-    position += 1
+    const objectID = `${path}-${md5(record.anchor)}`
+    records.push({ ...record, path, objectID })
   }
   const handleNode = (node, parent) => {
     if (node.type === 'element') {
@@ -93,7 +111,8 @@ async function addRecords(filePath) {
       }
 
       if (CONTENT.includes(node.tagName)) {
-        addRecord(node)
+        let text = getText(node)
+        addContent(text)
         return
       }
 
@@ -115,6 +134,7 @@ async function addRecords(filePath) {
   }
 
   result.children.forEach(handleNode)
+  addRecord()
 
   return records
 }
